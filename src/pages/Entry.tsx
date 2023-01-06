@@ -5,8 +5,8 @@ import heavyObj from '../assets/heavy-object.png';
 import heavyObjEN from '../assets/heavy-object-en.webp';
 import { parse as parseYaml } from 'yaml';
 import { useDepData } from '../useDepData';
-import demoLockfile from '../../pnpm-lock.yaml?raw';
 import { Translate } from '../i18n';
+import { GithubOutlined } from '@ant-design/icons';
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -19,7 +19,7 @@ function randomTimes() {
 export const Entry: React.FC = React.memo(() => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
-  const [text, setText] = useState(demoLockfile);
+  const [text, setText] = useState('');
 
   const handleParse = async () => {
     messageApi.loading(Translate.parsing, 0);
@@ -79,7 +79,18 @@ export const Entry: React.FC = React.memo(() => {
         </Space>
       </div>
 
-      <img src={Translate.getLanguage() === 'zh' ? heavyObj : heavyObjEN} />
+      <div>
+        <img src={Translate.getLanguage() === 'zh' ? heavyObj : heavyObjEN} />
+      </div>
+
+      <div style={{ textAlign: 'right' }}>
+        <Button
+          icon={<GithubOutlined />}
+          onClick={() => {
+            window.open('https://github.com/moonrailgun/node-modules-vision');
+          }}
+        />
+      </div>
     </div>
   );
 });
