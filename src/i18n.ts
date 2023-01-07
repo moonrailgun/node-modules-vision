@@ -16,6 +16,7 @@ export const Translate = new LocalizedStrings({
     title: '康康你的 node_modules 有多重',
     placeholder: '请在此粘贴您的 pnpm-lock.yaml 文件, 我们会帮你进行分析',
     parse: '解析',
+    parsing: '正在解析中...',
     tip1: '你知道吗? 黑洞是宇宙中最大的天体',
     tip2: '但是 node_modules 会比黑洞更重(笑)',
     tip3: '不要急, 我们还在解析中...',

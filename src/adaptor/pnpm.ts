@@ -25,8 +25,9 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
   const edges: EdgeConfig[] = [];
   const combos: ComboConfig[] = [];
 
-  Object.entries(packages).forEach(([name, detail]) => {
-    const label = getPackageNameDesc(name);
+  Object.entries(packages).forEach(([fullName, detail]) => {
+    const [name, version] = getPackageNameInfo(fullName);
+    const label = `${name}@${version}`;
 
     nodes.push({
       id: name,
@@ -38,7 +39,7 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
     if (detail.dependencies) {
       Object.entries(detail.dependencies).forEach(([_name, _version]) => {
         edges.push({
-          source: name,
+          source: fullName,
           target: `/${_name}/${_version}`,
         });
       });
@@ -48,7 +49,7 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
       Object.entries(detail.optionalDependencies).forEach(
         ([_name, _version]) => {
           edges.push({
-            source: name,
+            source: fullName,
             target: `/${_name}/${_version}`,
             style: {
               lineDash: [5],
@@ -66,10 +67,11 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
   };
 }
 
-function getPackageNameDesc(name: string) {
-  const arr = name.split('/');
+function getPackageNameInfo(fullName: string): [string, string] {
+  const arr = fullName.split('/');
   arr.shift();
-  const version = arr.pop();
+  const version = arr.pop() ?? '';
+  const name = arr.join('/') ?? '';
 
-  return arr.join('/') + '@' + version;
+  return [name, version];
 }
