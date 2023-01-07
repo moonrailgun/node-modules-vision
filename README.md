@@ -7,5 +7,7 @@ Folder `node_modules` is most heavy object in the world *(laugh)*. We have techn
 ### Hightlight
 
 - No need upload source code. just paste your lockfile, every thing we need is in here.
+- Support `pnpm`/`yarn`/`npm`. Everything you used is support.
 - Check your all dependencies and show with graph.
 - Internationalization(Support English and Simplified Chinese)
+- Provide online website, light and easy to view.

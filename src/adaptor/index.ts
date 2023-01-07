@@ -5,6 +5,7 @@ import { LockfileManager } from '../useDepData';
 import { message } from 'antd';
 import { parseYarnLockfile } from './yarn';
 import { parseYarnLockfileYaml } from './lib/yarn-lockfile';
+import { parseNpmLockfile } from './npm';
 
 export function parseLockfile(
   manager: LockfileManager,
@@ -19,9 +20,13 @@ export function parseLockfile(
     if (manager === 'yarn') {
       const obj = parseYarnLockfileYaml(text);
 
-      console.log('obj', obj);
-
       return parseYarnLockfile(obj);
+    }
+
+    if (manager === 'npm') {
+      const obj = JSON.parse(text);
+
+      return parseNpmLockfile(obj);
     }
   } catch (err) {
     console.error(err);

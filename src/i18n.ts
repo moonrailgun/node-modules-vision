@@ -4,7 +4,7 @@ export const Translate = new LocalizedStrings({
   en: {
     title: 'See how heavy your node_modules are',
     placeholder:
-      'Please paste your pnpm-lock.yaml/yarn.lock file here, we will analyze it for you',
+      'Please paste your pnpm-lock.yaml/yarn.lock/package-lock.json file here, we will analyze it for you',
     parse: 'Parse',
     parsing: 'Parsing...',
     tip1: 'Did you know? Black holes are the largest celestial bodies in the universe',
@@ -16,7 +16,7 @@ export const Translate = new LocalizedStrings({
   zh: {
     title: '康康你的 node_modules 有多重',
     placeholder:
-      '请在此粘贴您的 pnpm-lock.yaml/yarn.lock 文件, 我们会帮你进行分析',
+      '请在此粘贴您的 pnpm-lock.yaml/yarn.lock/package-lock.json 文件, 我们会帮你进行分析',
     parse: '解析',
     parsing: '正在解析中...',
     tip1: '你知道吗? 黑洞是宇宙中最大的天体',
