@@ -5,11 +5,11 @@ import { Entry } from './pages/Entry';
 import { useDepData } from './useDepData';
 
 function App() {
-  const rawObj = useDepData((state) => state.rawObj);
+  const hasData = useDepData((state) => !!state.graphData);
 
   return (
     <ConfigProvider locale={zhCN}>
-      {!rawObj ? <Entry /> : <DepGraph />}
+      {!hasData ? <Entry /> : <DepGraph />}
     </ConfigProvider>
   );
 }

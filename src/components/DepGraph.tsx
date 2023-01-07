@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import G6, { GraphData } from '@antv/g6';
 import { useDepData } from '../useDepData';
 import { parsePnpmLockfile } from '../adaptor/pnpm';
+import { Translate } from '../i18n';
 
 /**
  * Reference: https://g6.antv.antgroup.com/manual/introduction
@@ -9,16 +10,20 @@ import { parsePnpmLockfile } from '../adaptor/pnpm';
 export const DepGraph: React.FC = React.memo(() => {
   const containerRef = useRef<HTMLDivElement>(null);
   const data = useDepData((state) => {
-    return state.rawObj ? parsePnpmLockfile(state.rawObj) : null;
+    return state.graphData;
   });
+
+  const packageCount = useMemo(
+    () => (data?.nodes ? data.nodes.length : 0),
+    [data?.nodes]
+  );
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
       return;
     }
-
-    if (data === null) {
+    if (!data) {
       return;
     }
 
@@ -29,7 +34,6 @@ export const DepGraph: React.FC = React.memo(() => {
       width,
       height,
       fitView: false,
-      fitViewPadding: [16, 16, 16, 16],
       modes: {
         default: [
           'drag-canvas',
@@ -100,10 +104,15 @@ export const DepGraph: React.FC = React.memo(() => {
   }, [data]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}
-    />
+    <div>
+      <div
+        ref={containerRef}
+        style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}
+      />
+      <div style={{ position: 'fixed', top: 10, right: 10 }}>
+        {Translate.formatString(Translate.packageCount, packageCount)}
+      </div>
+    </div>
   );
 });
 DepGraph.displayName = 'DepGraph';

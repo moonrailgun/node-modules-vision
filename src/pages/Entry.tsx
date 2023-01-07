@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button, Input, message, Space, Typography } from 'antd';
+import { Button, Input, message, Radio, Space, Typography } from 'antd';
 import { useState } from 'react';
 import heavyObj from '../assets/heavy-object.png';
 import heavyObjEN from '../assets/heavy-object-en.webp';
-import { parse as parseYaml } from 'yaml';
-import { useDepData } from '../useDepData';
+import { LockfileManager, useDepData } from '../useDepData';
 import { Translate } from '../i18n';
 import { GithubOutlined } from '@ant-design/icons';
 
@@ -20,34 +19,33 @@ export const Entry: React.FC = React.memo(() => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
+  const [manager, setManager] = useState<LockfileManager>('pnpm');
 
   const handleParse = async () => {
     messageApi.loading(Translate.parsing, 0);
     setLoading(true);
 
-    await sleep(randomTimes());
+    if (import.meta.env.MODE !== 'development') {
+      await sleep(randomTimes());
 
-    messageApi.destroy();
-    messageApi.loading(Translate.tip1, 0);
-    await sleep(randomTimes());
+      messageApi.destroy();
+      messageApi.loading(Translate.tip1, 0);
+      await sleep(randomTimes());
 
-    messageApi.destroy();
-    messageApi.loading(Translate.tip2, 0);
-    await sleep(randomTimes());
+      messageApi.destroy();
+      messageApi.loading(Translate.tip2, 0);
+      await sleep(randomTimes());
 
-    messageApi.destroy();
-    messageApi.loading(Translate.tip3, 0);
-    await sleep(randomTimes());
+      messageApi.destroy();
+      messageApi.loading(Translate.tip3, 0);
+      await sleep(randomTimes());
 
-    messageApi.destroy();
-    messageApi.loading(Translate.tip4, 0);
-    await sleep(randomTimes());
+      messageApi.destroy();
+      messageApi.loading(Translate.tip4, 0);
+      await sleep(randomTimes());
+    }
 
-    const obj = parseYaml(text);
-    console.log('obj', obj);
-    useDepData.setState({
-      rawObj: obj,
-    });
+    useDepData.getState().parseToGraph(manager, text);
 
     setLoading(false);
     messageApi.destroy();
@@ -60,6 +58,13 @@ export const Entry: React.FC = React.memo(() => {
       <div style={{ width: 600, margin: '60px auto' }}>
         <Typography.Title level={2}>{Translate.title}</Typography.Title>
         <Space direction="vertical" style={{ width: '100%' }}>
+          <Radio.Group
+            options={['pnpm', 'yarn', 'npm']}
+            optionType="button"
+            buttonStyle="solid"
+            value={manager}
+            onChange={(e) => setManager(e.target.value)}
+          />
           <Input.TextArea
             placeholder={Translate.placeholder}
             rows={10}

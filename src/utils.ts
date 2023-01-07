@@ -34,3 +34,7 @@ export async function fetchPackageUnpackSize(
     return 0;
   }
 }
+
+export function calcRectSize(text: string): [number, number] {
+  return [text.length * 10 + 40, 26];
+}

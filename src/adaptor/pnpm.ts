@@ -1,4 +1,5 @@
 import { ComboConfig, EdgeConfig, GraphData, NodeConfig } from '@antv/g6';
+import { calcRectSize } from '../utils';
 
 interface PnpmLockfileType {
   dependencies: Record<string, string>;
@@ -33,7 +34,7 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
       id: name,
       name,
       label,
-      size: [label.length * 10 + 40, 26],
+      size: calcRectSize(label),
     });
 
     if (detail.dependencies) {
