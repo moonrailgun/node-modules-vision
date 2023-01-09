@@ -12,7 +12,7 @@ function sleep(ms: number) {
 }
 
 function randomTimes() {
-  return Math.ceil(Math.random() * 5 * 1000) + 2500; // 确保最低有2s
+  return Math.ceil(Math.random() * 2 * 1000) + 2500; // 确保最低有2s
 }
 
 export const Entry: React.FC = React.memo(() => {
