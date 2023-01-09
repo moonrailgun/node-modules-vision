@@ -31,8 +31,8 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
     const label = `${name}@${version}`;
 
     nodes.push({
-      id: name,
-      name,
+      id: fullName,
+      name: fullName,
       label,
       size: calcRectSize(label),
     });
