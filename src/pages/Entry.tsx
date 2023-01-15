@@ -6,6 +6,7 @@ import heavyObjEN from '../assets/heavy-object-en.webp';
 import { LockfileManager, useDepData } from '../useDepData';
 import { Translate } from '../i18n';
 import { GithubOutlined } from '@ant-design/icons';
+import demoPnpm from '../../pnpm-lock.yaml?raw';
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -20,6 +21,11 @@ export const Entry: React.FC = React.memo(() => {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [manager, setManager] = useState<LockfileManager>('pnpm');
+
+  const handleDemo = () => {
+    setManager('pnpm');
+    setText(demoPnpm);
+  };
 
   const handleParse = async () => {
     messageApi.loading(Translate.parsing, 0);
@@ -58,13 +64,17 @@ export const Entry: React.FC = React.memo(() => {
       <div style={{ width: 600, margin: '60px auto' }}>
         <Typography.Title level={2}>{Translate.title}</Typography.Title>
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Radio.Group
-            options={['pnpm', 'yarn', 'npm']}
-            optionType="button"
-            buttonStyle="solid"
-            value={manager}
-            onChange={(e) => setManager(e.target.value)}
-          />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Radio.Group
+              options={['pnpm', 'yarn', 'npm']}
+              optionType="button"
+              buttonStyle="solid"
+              value={manager}
+              onChange={(e) => setManager(e.target.value)}
+            />
+            <Button onClick={handleDemo}>DEMO</Button>
+          </div>
+
           <Input.TextArea
             placeholder={Translate.placeholder}
             rows={10}

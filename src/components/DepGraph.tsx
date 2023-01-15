@@ -101,7 +101,7 @@ export const DepGraph: React.FC = React.memo(() => {
     graph.data(data);
     // 渲染图
     graph.render();
-  }, [data]);
+  }, []);
 
   return (
     <div>

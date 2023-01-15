@@ -39,23 +39,40 @@ export function parsePnpmLockfile(obj: Record<string, any>): GraphData {
 
     if (detail.dependencies) {
       Object.entries(detail.dependencies).forEach(([_name, _version]) => {
-        edges.push({
-          source: fullName,
-          target: `/${_name}/${_version}`,
-        });
+        if (_version.startsWith('/')) {
+          edges.push({
+            source: fullName,
+            target: `${_version}`,
+          });
+        } else {
+          edges.push({
+            source: fullName,
+            target: `/${_name}/${_version}`,
+          });
+        }
       });
     }
 
     if (detail.optionalDependencies) {
       Object.entries(detail.optionalDependencies).forEach(
         ([_name, _version]) => {
-          edges.push({
-            source: fullName,
-            target: `/${_name}/${_version}`,
-            style: {
-              lineDash: [5],
-            },
-          });
+          if (_version.startsWith('/')) {
+            edges.push({
+              source: fullName,
+              target: `${_version}`,
+              style: {
+                lineDash: [5],
+              },
+            });
+          } else {
+            edges.push({
+              source: fullName,
+              target: `/${_name}/${_version}`,
+              style: {
+                lineDash: [5],
+              },
+            });
+          }
         }
       );
     }
